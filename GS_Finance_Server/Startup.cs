@@ -28,8 +28,10 @@ namespace GS_Finance_Server
             services.AddSingleton<ILoginRequestService, LoginRequestService>();
             services.AddSingleton<IRepository<User>, UserRepository>();
             services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IKeyValueRepository, KeyValueRepository>();
+            // services.AddSingleton<IKeyValueRepository, KeyValueRepository>();
+            services.AddSingleton<IKeyValueRepository, RedisKeyValueRepository>();
             services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,16 +4,26 @@ using System.Linq;
 using GS_Finance_Server.Exceptions;
 using GS_Finance_Server.Interfaces.Repositories;
 using GS_Finance_Server.Models;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 
 namespace GS_Finance_Server.Repositories
 {
     public class UserRepository : IRepository<User>
     {
         private static List<User> users = new List<User>();
+        private IMongoRepository _mongoRepository;
+        private IMongoCollection<User> _collection;
 
+        public UserRepository(IMongoRepository mongoRepository)
+        {
+            _mongoRepository = mongoRepository;
+            _collection = mongoRepository.GetDB().GetCollection<User>("user");
+        }
 
         public User Get(int id)
         {
+            _collection.Find()
             foreach (var user in users)
                 if (user.Id == id)
                     return user;

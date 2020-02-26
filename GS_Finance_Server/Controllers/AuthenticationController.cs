@@ -14,22 +14,25 @@ namespace GS_Finance_Server.Controllers
         {
             _loginRequestService = loginRequestService;
         }
-        
+
 
         [HttpGet("login")]
         public AuthenticationData Login(string username, string password)
         {
-            if (!_loginRequestService.ValidateLogin(username, password))
-                return new AuthenticationData(
-                    "",
-                    "LOGIN ERROR",
-                    0);
-            
+            string token = "";
+            string msg = "LOGIN ERROR";
+            long validUntil = 0;
+            if (_loginRequestService.ValidateLogin(username, password))
+            {
+                token = _loginRequestService.AuthenticationToken(username);
+                msg = "LOGIN OK";
+                validUntil = _loginRequestService.NextValidUntilTimestamp();
+            }
+
             return new AuthenticationData(
-                _loginRequestService.AuthenticationToken(username),
-                "LOGIN OK",
-                _loginRequestService.NextValidUntilTimestamp());
-            
+                token,
+                msg,
+                validUntil);
         }
     }
 }
