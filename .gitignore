@@ -1,0 +1,4 @@
+.idea
+mono_crash*.*
+*/bin
+*/obj
